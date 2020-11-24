@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uservices/ui/pages/client.login.page.dart';
-import 'package:uservices/ui/pages/service.provider.login.page.dart';
+import 'package:uservices/ui/pages/serviceprovider/service.provider.login.page.dart';
 
-import 'menu.dart';
+import '../menu.page.dart';
 
 class AuthenticationPage extends StatefulWidget {
   @override
@@ -121,7 +121,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       ),
                     ),
                     onPressed: () {
-                      Get.to(Menu());
+                      Get.to(MenuPage());
                     },
                   ),
                 ),

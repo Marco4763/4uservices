@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:uservices/data/models/login.response.dart';
 import 'package:uservices/data/provider/provider.dart';
 
 class LoginController extends GetxController {

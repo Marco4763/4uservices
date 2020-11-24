@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kf_drawer/kf_drawer.dart';
 
-class AgendaPage extends StatefulWidget {
+class AgendaPage extends KFDrawerContent {
+  AgendaPage({
+    Key key,
+  });
+
   @override
   _AgendaPageState createState() => _AgendaPageState();
 }
@@ -10,7 +15,12 @@ class _AgendaPageState extends State<AgendaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_rounded),
+          onPressed: () {
+            widget.onMenuPressed( );
+          },
+        ),
         title: Text(
           "Agenda",
         ),

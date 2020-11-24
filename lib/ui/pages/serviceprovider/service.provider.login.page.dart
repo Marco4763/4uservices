@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:uservices/ui/pages/service.provider.register.page.dart';
 
+import 'service.provider.register.page.dart';
 class ServiceProviderLoginPage extends StatefulWidget {
   @override
   _ServiceProviderLoginPageState createState() =>

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:uservices/ui/pages/authentication.page.dart';
 import 'package:backendless_sdk/backendless_sdk.dart';
+import 'package:uservices/ui/pages/global/authentication.page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

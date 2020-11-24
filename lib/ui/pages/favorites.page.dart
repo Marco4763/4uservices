@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kf_drawer/kf_drawer.dart';
 
-class FavoritesPage extends StatefulWidget {
+class FavoritesPage extends KFDrawerContent {
+  FavoritesPage({
+    Key key,
+  });
+
   @override
   _FavoritesPageState createState() => _FavoritesPageState();
 }
@@ -10,7 +15,12 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_rounded),
+          onPressed: () {
+            widget.onMenuPressed( );
+          },
+        ),
         title: Text(
           "Favoritos",
         ),

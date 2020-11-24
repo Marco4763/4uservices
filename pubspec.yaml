@@ -20,6 +20,8 @@ dependencies:
   json_serializable: ^3.5.0
   progress_dialog: ^1.2.4
   cached_network_image: ^2.3.2
+  kf_drawer: ^1.1.2
+
 
 dev_dependencies:
   flutter_test:

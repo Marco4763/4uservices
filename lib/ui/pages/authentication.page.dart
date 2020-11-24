@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uservices/ui/pages/client.login.page.dart';
+import 'package:uservices/ui/pages/service.provider.login.page.dart';
+
+import 'menu.dart';
 
 class AuthenticationPage extends StatefulWidget {
   @override
@@ -72,7 +76,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(ClientLoginPage());
+                    },
                   ),
                 ),
                 Container(
@@ -92,7 +98,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(ServiceProviderLoginPage());
+                    },
                   ),
                 ),
                 Container(
@@ -112,7 +120,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(Menu());
+                    },
                   ),
                 ),
               ],

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uservices/ui/pages/authentication.page.dart';
+import 'package:backendless_sdk/backendless_sdk.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  /* await GetStorage.init();*/
+  await Backendless.initApp(
+    "0094E0EE-4920-7B0C-FF0A-5CCBB8768100",
+    "2BB3DA3E-D04B-471D-B1DB-D6DD39A41047",
+    "80AE15FF-E197-47DF-9639-11A1A346F74E",
+  );
   runApp(
     GetMaterialApp(
       title: 'Tchingame',
@@ -17,6 +22,17 @@ void main() async {
         accentColor: Colors.orange,
         scaffoldBackgroundColor: Colors.grey.shade300,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          color: Colors.deepOrange,
+          textTheme: TextTheme(
+            headline6: TextStyle(
+              fontSize: 20.0,
+              fontFamily: "SemiBold",
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
     ),
   );

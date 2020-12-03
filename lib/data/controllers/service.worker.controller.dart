@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:uservices/data/models/categories.response.dart';
@@ -8,21 +9,23 @@ import 'package:uservices/data/provider/provider.dart';
 import 'package:uservices/data/service/http.service.dart';
 import 'package:uservices/ui/pages/menu.page.dart';
 import 'package:uservices/ui/pages/serviceprovider/service.provider.login.page.dart';
+import 'package:uservices/ui/pages/serviceprovider/service.provider.menu.page.dart';
 
-class ServiceRegisterController extends GetxController {
+class ServiceWorkerController extends GetxController {
   //Ctrl => Controller
   HttpServices http = HttpServices();
+  var pic;
   var categories;
   final _sending = false.obs;
   final _name = TextEditingController().obs;
   final _phone = TextEditingController().obs;
+  final _cpf = TextEditingController().obs;
   final _email = TextEditingController().obs;
-  final _cpnj = TextEditingController().obs;
   final _county = 'Estado'.obs;
   final _city = TextEditingController().obs;
   final _address = TextEditingController().obs;
   final _password = TextEditingController().obs;
-  final _service = ''.obs;
+  final _url = ''.obs;
   var objectId = '';
   LoginResponse loginResponse = LoginResponse();
 
@@ -35,8 +38,8 @@ class ServiceRegisterController extends GetxController {
   get email => this._email.value;
   set email(value) => this._email.value = value;
 
-  get cpnj => this._cpnj.value;
-  set cpnj(value) => this._cpnj.value = value;
+  get cpf => this._cpf.value;
+  set cpf(value) => this._cpf.value = value;
 
   get city => this._city.value;
   set city(value) => this._city.value = value;
@@ -50,8 +53,8 @@ class ServiceRegisterController extends GetxController {
   get password => this._password.value;
   set password(value) => this._password.value = value;
 
-  get service => this._service.value;
-  set service(value) => this._service.value = value;
+  get url => this._url.value;
+  set url(value) => this._url.value = value;
 
   get county => this._county.value;
   set county(value) => this._county.value = value;
@@ -63,40 +66,50 @@ class ServiceRegisterController extends GetxController {
     super.onClose();
   }*/
 
-  void createBusinessAccount() async {
+  void sendPhoto( var file, var path) async{
     http.initApi();
-    print('ok');
-    var result;
-    var params = {
-      "nome": name.text.toString().trim(),
-      "telefone": phone.text.toString().trim(),
-      "email": email.text.toString().trim(),
-      "cpnj_cpf": cpnj.text.toString().trim(),
-      "estado": county.toString().trim(),
-      "cidade": city.text.toString().trim(),
-      "endereco": address.text.toString().trim(),
-      "horario": '24H',
-      "servico": [
-        {"objectId":objectId}
-      ],
-      "password": password.text.toString().trim()
-    };
-    if(name.text.isEmpty ||
+    if(pic == null ||
+        name.text.isEmpty ||
         phone.text.isEmpty ||
-        cpnj.text.isEmpty ||
+        cpf.text.isEmpty ||
         county.isEmpty || county == 'Estado' ||
         city.text.isEmpty ||
         email.text.isEmpty ||
-        address.text.isEmpty ||
-        service.isEmpty ||
-        password.text.isEmpty){
+        address.text.isEmpty ){
       Get.snackbar('Resultado', 'Campos em branco.',
           showProgressIndicator: true);
-
-    }else{
-      print(jsonEncode(params));
+    }else {
       sending = true;
-      await http.post('/createNegocio', params, headers: {
+      Backendless.files.upload(file, path).then((response) {
+        url = response;
+        createWorkerAccount();
+      }).catchError((error){
+        Get.snackbar('Resultado', 'Erro de conexão, verifique a internet.',
+            showProgressIndicator: true);
+        sending = false;
+      });
+    }
+  }
+
+  void createWorkerAccount() async {
+    http.initApi();
+    print('ok');
+    var params = {
+    "nome": name.text.toString().trim(),
+    "telefone": phone.text.toString().trim(),
+    "email": email.text.toString().trim(),
+    "cpf": cpf.text.toString().trim(),
+    "estado": county.toString().trim(),
+    "cidade": city.text.toString().trim(),
+    "endereco": address.text.toString().trim(),
+    "password": '1234',
+    "porfile_photo": url,
+    "objectId": [
+      {"objectId":objectId}
+    ]
+    };
+      print(jsonEncode(params));
+      await http.post('/signupWorker', params, headers: {
         'Content-Type': 'application/json'
       }).then((value) {
         sending = false;
@@ -106,7 +119,6 @@ class ServiceRegisterController extends GetxController {
         } else {
           Get.snackbar(
               'Resultado', 'Cadastro concluido com sucesso.', showProgressIndicator: true);
-          Get.offAll(ServiceProviderLoginPage());
         }
       }).catchError((error) {
         print(error);
@@ -114,25 +126,5 @@ class ServiceRegisterController extends GetxController {
             showProgressIndicator: true);
         sending = false;
       });
-    }
-  }
-
-  void getCategories() async {
-    http.initApi();
-    print('ok');
-    await http.get('/categorias', headers: {
-      'Content-Type': 'application/json; charset=utf-8'
-    }).then((value) {
-      if (value.toString().contains('Erro')) {
-        Get.snackbar('Resultado', 'Erro de autentição.', showProgressIndicator: true);
-      } else {
-        categories = CategoriesResponse.fromJson(jsonDecode(value));
-        print(categories);
-      }
-    }).catchError((error) {
-      print(error);
-      Get.snackbar('Resultado', 'Erro de conexão, verifique a internet.',
-          showProgressIndicator: true);
-    });
   }
 }

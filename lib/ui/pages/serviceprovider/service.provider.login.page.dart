@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uservices/data/controllers/service.login.controller.dart';
+import 'package:uservices/ui/pages/serviceprovider/service.provider.register.page.dart';
 
-import 'service.provider.register.page.dart';
 class ServiceProviderLoginPage extends StatefulWidget {
   @override
   _ServiceProviderLoginPageState createState() =>
@@ -9,6 +10,8 @@ class ServiceProviderLoginPage extends StatefulWidget {
 }
 
 class _ServiceProviderLoginPageState extends State<ServiceProviderLoginPage> {
+  final login = Get.put(ServiceLoginController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +104,7 @@ class _ServiceProviderLoginPageState extends State<ServiceProviderLoginPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TextFormField(
+                          controller: login.emailCtrl,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Email",
@@ -128,6 +132,8 @@ class _ServiceProviderLoginPageState extends State<ServiceProviderLoginPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TextFormField(
+                          controller: login.passwordCtrl,
+                          obscureText: true,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Password",
@@ -139,7 +145,7 @@ class _ServiceProviderLoginPageState extends State<ServiceProviderLoginPage> {
                           ),
                         ),
                       ),
-                      Container(
+                      Obx(() => Container(
                         width: Get.width,
                         margin: EdgeInsets.only(top: 10, bottom: 8),
                         height: 48.0,
@@ -148,16 +154,22 @@ class _ServiceProviderLoginPageState extends State<ServiceProviderLoginPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: FlatButton(
-                          child: Text(
+                          child: login.sending == false ?
+                          Text(
                             "Aceder Conta",
                             style: TextStyle(
                               fontFamily: "SemiBold",
                               fontSize: 16.0,
                               color: Colors.white,
                             ),
-                          ),
-                          onPressed: () {},
+                          )
+                              :
+                          CircularProgressIndicator(),
+                          onPressed: () {
+                            login.login();
+                          },
                         ),
+                      ),
                       ),
                       SizedBox(
                         height: 20.0,
@@ -179,9 +191,7 @@ class _ServiceProviderLoginPageState extends State<ServiceProviderLoginPage> {
                           Flexible(
                             child: GestureDetector(
                               onTap: () {
-                                Get.to(
-                                  ServiceProviderRegisterPage(),
-                                );
+                                Get.to(ServiceProviderRegisterPage());
                               },
                               child: Text(
                                 " Registrar Conta!",

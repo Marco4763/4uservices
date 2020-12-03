@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'service.provider.register.page.dart';
-class ServiceProviderLoginPage extends StatefulWidget {
+class ClientRegisterPage extends StatefulWidget {
   @override
-  _ServiceProviderLoginPageState createState() =>
-      _ServiceProviderLoginPageState();
+  _ClientRegisterPageState createState() => _ClientRegisterPageState();
 }
 
-class _ServiceProviderLoginPageState extends State<ServiceProviderLoginPage> {
+class _ClientRegisterPageState extends State<ClientRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,29 +44,24 @@ class _ServiceProviderLoginPageState extends State<ServiceProviderLoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: (){
-                    Get.back();
-                  },
-                  child: Container(
-                    width: 40.0,
-                    height: 40.0,
-                    margin: EdgeInsets.only(
-                      top: (MediaQuery.of(context).padding.top),
-                      bottom: 8,
+                Container(
+                  width: 40.0,
+                  height: 40.0,
+                  margin: EdgeInsets.only(
+                    top: (MediaQuery.of(context).padding.top),
+                    bottom: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      width: 2.0,
+                      color: Colors.deepOrange,
                     ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        width: 2.0,
-                        color: Colors.deepOrange,
-                      ),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.arrow_back_ios_rounded,
-                        color: Colors.white,
-                      ),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -84,8 +77,7 @@ class _ServiceProviderLoginPageState extends State<ServiceProviderLoginPage> {
                         image: AssetImage(
                           "assets/images/logo.png",
                         ),
-                      ),
-                      SizedBox(
+                      ),SizedBox(
                         height: 20.0,
                       ),
                       Container(
@@ -103,7 +95,118 @@ class _ServiceProviderLoginPageState extends State<ServiceProviderLoginPage> {
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
+                            hintText: "Nome",
+                          ),
+                          style: TextStyle(
+                            fontFamily: "SemiBold",
+                            fontSize: 16.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Container(
+                        width: Get.width,
+                        margin: EdgeInsets.only(top: 8, bottom: 8),
+                        height: 46.0,
+                        padding: EdgeInsets.only(
+                          left: 8.0,
+                          right: 8.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Celular",
+                          ),
+                          style: TextStyle(
+                            fontFamily: "SemiBold",
+                            fontSize: 16.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Container(
+                        width: Get.width,
+                        margin: EdgeInsets.only(top: 8, bottom: 8),
+                        height: 46.0,
+                        padding: EdgeInsets.only(
+                          left: 8.0,
+                          right: 8.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "CPF",
+                          ),
+                          style: TextStyle(
+                            fontFamily: "SemiBold",
+                            fontSize: 16.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Container(
+                        width: Get.width,
+                        margin: EdgeInsets.only(top: 8, bottom: 8),
+                        height: 46.0,
+                        padding: EdgeInsets.only(
+                          left: 8.0,
+                          right: 8.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
                             hintText: "Email",
+                          ),
+                          style: TextStyle(
+                            fontFamily: "SemiBold",
+                            fontSize: 16.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Container(
+                        width: Get.width,
+                        margin: EdgeInsets.only(top: 8, bottom: 8),
+                        height: 46.0,
+                        padding: EdgeInsets.only(
+                          left: 8.0,
+                          right: 8.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Cidade",
                           ),
                           style: TextStyle(
                             fontFamily: "SemiBold",
@@ -177,19 +280,12 @@ class _ServiceProviderLoginPageState extends State<ServiceProviderLoginPage> {
                             ),
                           ),
                           Flexible(
-                            child: GestureDetector(
-                              onTap: () {
-                                Get.to(
-                                  ServiceProviderRegisterPage(),
-                                );
-                              },
-                              child: Text(
-                                " Registrar Conta!",
-                                style: TextStyle(
-                                  fontFamily: "SemiBold",
-                                  fontSize: 14.0,
-                                  color: Colors.deepOrange,
-                                ),
+                            child: Text(
+                              " Registrar Conta!",
+                              style: TextStyle(
+                                fontFamily: "SemiBold",
+                                fontSize: 14.0,
+                                color: Colors.deepOrange,
                               ),
                             ),
                           ),

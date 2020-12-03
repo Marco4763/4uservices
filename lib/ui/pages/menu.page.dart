@@ -8,6 +8,8 @@ import 'package:uservices/ui/pages/profile.page.dart';
 import 'home.page.dart';
 
 class MenuPage extends StatefulWidget {
+  MenuPage({Key key, this.profile}) : super (key : key);
+  final dynamic profile;
   @override
   _MenuPageState createState() => _MenuPageState();
 }
@@ -30,12 +32,14 @@ class _MenuPageState extends State<MenuPage> with TickerProviderStateMixin {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                 ),
-                child: Image(
-                  image: AssetImage("assets/images/me_cropped.png"),
-                ),
+                child: widget.profile.data[0].porfilePhoto != null ?
+                Image(
+                  image: NetworkImage(widget.profile.data[0].porfilePhoto),
+                )
+                :
+                Icon(Icons.person_pin, size: 100,),
               ),
-              Text(
-                "John Sullivan",
+              Text(widget.profile.data[0].nome,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "ExtraBold",
@@ -125,7 +129,7 @@ class _MenuPageState extends State<MenuPage> with TickerProviderStateMixin {
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             width: MediaQuery.of(context).size.width * 0.6,
             child: Image.asset(
-              'assets/logo.png',
+              'assets/images/logo.png',
               alignment: Alignment.centerLeft,
             ),
           ),

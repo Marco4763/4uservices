@@ -1,21 +1,21 @@
 // To parse this JSON data, do
 //
-//     final loginResponse = loginResponseFromJson(jsonString);
+//     final profileResponse = profileResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-LoginResponse loginResponseFromJson(String str) => LoginResponse.fromJson(json.decode(str));
+ProfileResponse profileResponseFromJson(String str) => ProfileResponse.fromJson(json.decode(str));
 
-String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
+String profileResponseToJson(ProfileResponse data) => json.encode(data.toJson());
 
-class LoginResponse {
-  LoginResponse({
+class ProfileResponse {
+  ProfileResponse({
     this.data,
   });
 
   List<Datum> data;
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
+  factory ProfileResponse.fromJson(Map<String, dynamic> json) => ProfileResponse(
     data: json["data"] == null ? null : List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
   );
 

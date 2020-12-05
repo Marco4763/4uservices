@@ -1,4 +1,6 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:uservices/data/controllers/service.register.controller.dart';
 
@@ -132,6 +134,10 @@ class _ServiceProviderRegisterPageState extends State<ServiceProviderRegisterPag
                             ),
                             child: TextFormField(
                               controller: _.phone,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                CpfInputFormatter(),
+                              ],
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Telefone",
@@ -188,6 +194,10 @@ class _ServiceProviderRegisterPageState extends State<ServiceProviderRegisterPag
                             ),
                             child: TextFormField(
                               controller: _.cpnj,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                CpfOuCnpjFormatter(),
+                              ],
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "CNPJ/CPF",

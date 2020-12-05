@@ -1,5 +1,10 @@
+import 'dart:io';
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:uservices/data/controllers/client.register.provider.dart';
 
 class ClientRegisterPage extends StatefulWidget {
   @override
@@ -7,6 +12,8 @@ class ClientRegisterPage extends StatefulWidget {
 }
 
 class _ClientRegisterPageState extends State<ClientRegisterPage> {
+  final controller = Get.put(ClientRegisterProvider());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +32,7 @@ class _ClientRegisterPageState extends State<ClientRegisterPage> {
               ),
             ),
           ),
-          Container(
+          Obx(() => Container(
             width: Get.width,
             height: Get.height,
             decoration: BoxDecoration(
@@ -44,6 +51,7 @@ class _ClientRegisterPageState extends State<ClientRegisterPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 Container(
                   width: 40.0,
                   height: 40.0,
@@ -71,13 +79,86 @@ class _ClientRegisterPageState extends State<ClientRegisterPage> {
                       SizedBox(
                         height: 10.0,
                       ),
-                      Image(
-                        width: 140,
-                        height: 140,
-                        image: AssetImage(
-                          "assets/images/logo.png",
+                      GestureDetector(
+                        onTap: (){
+                          Get.bottomSheet(
+                              Container(
+                                width: Get.width,
+                                height: Get.height / 5,
+                                color: Colors.black,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    GestureDetector(
+                                      onTap:() async{
+                                        await ImagePicker().getImage(source: ImageSource.camera).then((value){
+                                          setState(() {
+                                            controller.pic = value.path;
+                                            controller.sendPhoto(File(controller.pic), controller.pic);
+                                            Get.back();
+                                          });
+                                        });
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.camera_alt, color: Colors.white, size: 50.0),
+                                          Text('Camera', style: TextStyle(color: Colors.white))
+                                        ],
+                                      ),
+                                    ),
+
+                                    GestureDetector(
+                                      onTap:() async{
+                                        await ImagePicker().getImage(source: ImageSource.gallery).then((value){
+                                          setState(() {
+                                            controller.pic = value.path;
+                                            controller.sendPhoto(File(controller.pic), controller.pic);
+                                            Get.back();
+                                          });
+                                        });
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.picture_as_pdf_outlined, color: Colors.white, size: 50.0),
+                                          Text('Galeria', style: TextStyle(color: Colors.white))
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                          );
+                        },
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: Container(
+                                width: 150,
+                                height: 150,
+                                child: controller.pic == null ?
+                                Icon(Icons.person_pin, size: 150)
+                                    :
+                                ClipRRect(
+                                    borderRadius: BorderRadius.circular(80.0),
+                                    child: Image.file(File(controller.pic), fit: BoxFit.cover,)),
+                              ),
+                            ),
+                            Center(
+                              child: Container(
+                                width: 120,
+                                height: 140,
+                                alignment: Alignment.bottomRight,
+                                child: Icon(Icons.add_box, color: Colors.white, size: 30,),
+                              ),
+                            )
+                          ],
                         ),
-                      ),SizedBox(
+                      ),
+                      SizedBox(
                         height: 20.0,
                       ),
                       Container(
@@ -93,6 +174,7 @@ class _ClientRegisterPageState extends State<ClientRegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TextFormField(
+                          controller: controller.name,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Nome",
@@ -120,7 +202,12 @@ class _ClientRegisterPageState extends State<ClientRegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TextFormField(
+                          controller: controller.phone,
                           keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            TelefoneInputFormatter(),
+                          ],
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Celular",
@@ -148,7 +235,12 @@ class _ClientRegisterPageState extends State<ClientRegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TextFormField(
+                          controller: controller.cpf,
                           keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            CpfInputFormatter(),
+                          ],
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "CPF",
@@ -176,6 +268,7 @@ class _ClientRegisterPageState extends State<ClientRegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TextFormField(
+                          controller: controller.email,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -191,6 +284,73 @@ class _ClientRegisterPageState extends State<ClientRegisterPage> {
                       SizedBox(
                         height: 10.0,
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            width: Get.width * .37,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.white),
+                                borderRadius:
+                                BorderRadius.circular(12.0)),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  value: controller.county,
+                                  items: <String>['Estado', 'PR', 'RJ']
+                                      .map<DropdownMenuItem<String>>(
+                                          (String e) {
+                                        return DropdownMenuItem<String>(
+                                          child: Padding(
+                                            padding:
+                                            const EdgeInsets.all(8.0),
+                                            child: Text(e,
+                                              style: TextStyle(
+                                                fontFamily: "SemiBold",
+                                                fontSize: 16.0,
+                                                color: Colors.black,
+                                              ),),
+                                          ),
+                                          value: e,
+                                        );
+                                      }).toList(),
+                                  onChanged: (value) {
+                                    controller.county = value;
+                                  }),
+                            ),
+                          ),
+                          Container(
+                            width: Get.width / 1.9,
+                            margin: EdgeInsets.only(top: 8, bottom: 8),
+                            height: 46.0,
+                            padding: EdgeInsets.only(
+                              left: 8.0,
+                              right: 8.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: TextFormField(
+                              controller: controller.city,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Cidade",
+                              ),
+                              style: TextStyle(
+                                fontFamily: "SemiBold",
+                                fontSize: 16.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
                       Container(
                         width: Get.width,
                         margin: EdgeInsets.only(top: 8, bottom: 8),
@@ -204,9 +364,10 @@ class _ClientRegisterPageState extends State<ClientRegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TextFormField(
+                          controller: controller.address,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Cidade",
+                            hintText: "Endereço",
                           ),
                           style: TextStyle(
                             fontFamily: "SemiBold",
@@ -231,6 +392,8 @@ class _ClientRegisterPageState extends State<ClientRegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TextFormField(
+                          obscureText: true,
+                          controller: controller.password,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Password",
@@ -251,71 +414,33 @@ class _ClientRegisterPageState extends State<ClientRegisterPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: FlatButton(
-                          child: Text(
-                            "Aceder Conta",
+                          child: controller.sending == false ?
+                          Text(
+                            "Cadastrar",
                             style: TextStyle(
                               fontFamily: "SemiBold",
                               fontSize: 16.0,
                               color: Colors.white,
                             ),
-                          ),
-                          onPressed: () {},
+                          )
+                              :
+                          CircularProgressIndicator(),
+                          onPressed: () {
+                            if(controller.pic == null){
+                              Get.snackbar(
+                                  'Resultado', 'Adicione uma imagem.', showProgressIndicator: true);
+                            }else{
+                              controller.sendPhoto(File(controller.pic), controller.pic);
+                            }
+                          },
                         ),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              "Já possui conta?",
-                              style: TextStyle(
-                                fontFamily: "SemiBold",
-                                fontSize: 14.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            child: Text(
-                              " Registrar Conta!",
-                              style: TextStyle(
-                                fontFamily: "SemiBold",
-                                fontSize: 14.0,
-                                color: Colors.deepOrange,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              "Recuperar Senha?",
-                              style: TextStyle(
-                                fontFamily: "SemiBold",
-                                fontSize: 14.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-          ),
+          )),
         ],
       ),
     );

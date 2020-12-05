@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:image_picker/image_picker.dart';
@@ -199,6 +201,10 @@ class _ServiceProviderWorkerPageState extends State<ServiceProviderWorkerPage> {
                         child: TextFormField(
                           controller: controller.phone,
                           keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            TelefoneInputFormatter(),
+                          ],
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Celular",
@@ -228,6 +234,10 @@ class _ServiceProviderWorkerPageState extends State<ServiceProviderWorkerPage> {
                         child: TextFormField(
                           controller: controller.cpf,
                           keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            CpfInputFormatter(),
+                          ],
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "CPF",

@@ -2,20 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kf_drawer/kf_drawer.dart';
-import 'package:uservices/data/controllers/categories.controller.dart';
-import 'package:uservices/ui/pages/subcategories.page.dart';
+import 'package:uservices/data/controllers/subcategories.controller.dart';
+import 'package:uservices/ui/pages/services.page.dart';
 
-class HomePage extends KFDrawerContent {
-  HomePage({
-    Key key,
-  });
+class SubcategoriesPage extends KFDrawerContent {
+  SubcategoriesPage({Key key, this.id});
+  final String id;
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _SubcategoriesPageState createState() => _SubcategoriesPageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  final _controller = Get.lazyPut(() => CategoriesController());
+class _SubcategoriesPageState extends State<SubcategoriesPage> {
+  final _controller = Get.lazyPut(() => SubcategoriesController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +33,9 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         width: Get.width,
         height: Get.height,
-        child: GetX<CategoriesController>(
+        child: GetX<SubcategoriesController>(
           initState: (state) {
-            Get.find<CategoriesController>().getCategories();
+            Get.find<SubcategoriesController>().getSubcategories(widget.id);
           },
           builder: (_) {
             if (_.state < 2) {
@@ -64,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                         fit: BoxFit.cover,
                       )),
                   Text(
-                    'Categorias',
+                    'Selecione a subcategoria',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   Container(
@@ -75,11 +74,11 @@ class _HomePageState extends State<HomePage> {
                           crossAxisCount: 3,
                           childAspectRatio: Get.width / (Get.height / 2),
                         ),
-                        itemCount: _.result.data.length,
+                        itemCount: _.result.data[0].subcategorias.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              Get.to(SubcategoriesPage(id: _.result.data[index].objectId,));
+                              Get.to(ServicesPage(subcategorieId: _.result.data[0].subcategorias[index].objectId, subcategories: _.result,));
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -97,14 +96,15 @@ class _HomePageState extends State<HomePage> {
                                           BorderRadius.circular(120.0),
                                       child: Image(
                                         image: NetworkImage(
-                                            _.result.data[index].image),
+                                            _.result.data[0].image),
                                         fit: BoxFit.cover,
                                       ),
                                     )),
                                 Container(
                                   width: Get.width * .9,
                                   child: Text(
-                                    _.result.data[index].categoria,
+                                    _.result.data[0].subcategorias[index]
+                                        .subcategoria,
                                     textAlign: TextAlign.center,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(fontSize: 12),

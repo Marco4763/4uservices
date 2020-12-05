@@ -33,8 +33,12 @@ class _MenuPageState extends State<MenuPage> with TickerProviderStateMixin {
                   shape: BoxShape.circle,
                 ),
                 child: widget.profile.data[0].porfilePhoto != null ?
-                Image(
-                  image: NetworkImage(widget.profile.data[0].porfilePhoto),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(80.0),
+                  child: Image(
+                    image: NetworkImage(widget.profile.data[0].porfilePhoto),
+                    fit: BoxFit.cover,
+                  ),
                 )
                 :
                 Icon(Icons.person_pin, size: 100,),

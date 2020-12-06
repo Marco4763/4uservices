@@ -35,27 +35,26 @@ class ServiceLoginController extends GetxController {
       "email": emailCtrl.text.trim(),
       "password": passwordCtrl.text.trim()
     };
-    if(emailCtrl.text.isEmpty || passwordCtrl.text.isEmpty){
-
+    if (emailCtrl.text.isEmpty || passwordCtrl.text.isEmpty) {
       Get.snackbar('Resultado', 'Campos em branco.',
           showProgressIndicator: true);
-
-    }else{
-
+    } else {
       sending = true;
-      await http.post('/loginNegocio', params, headers: {
-        'Content-Type': 'application/json'
-      }).then((value) {
+      await http.post('/loginNegocio', params,
+          headers: {'Content-Type': 'application/json'}).then((value) {
         sending = false;
         if (value.toString().contains('Erro')) {
-          Get.snackbar(
-              'Resultado', 'Erro de autentição.', showProgressIndicator: true);
+          Get.snackbar('Resultado', 'Erro de autentição.',
+              showProgressIndicator: true);
         } else {
           result = ServiceLoginResponse.fromJson(jsonDecode(value));
           print(result);
           storage.write('id', result.data[0].objectId);
+          print(storage.read('id'));
           storage.write('tipo', 'negocio');
-          Get.offAll(ServiceMenuPage(profile: result,));
+          Get.offAll(ServiceMenuPage(
+            profile: result,
+          ));
         }
       }).catchError((error) {
         print(error);
@@ -63,7 +62,6 @@ class ServiceLoginController extends GetxController {
             showProgressIndicator: true);
         sending = false;
       });
-
     }
   }
 }

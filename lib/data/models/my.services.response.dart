@@ -1,21 +1,21 @@
 // To parse this JSON data, do
 //
-//     final servicesResponse = servicesResponseFromJson(jsonString);
+//     final myServicesResponse = myServicesResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-ServicesResponse servicesResponseFromJson(String str) => ServicesResponse.fromJson(json.decode(str));
+MyServicesResponse myServicesResponseFromJson(String str) => MyServicesResponse.fromJson(json.decode(str));
 
-String servicesResponseToJson(ServicesResponse data) => json.encode(data.toJson());
+String myServicesResponseToJson(MyServicesResponse data) => json.encode(data.toJson());
 
-class ServicesResponse {
-    ServicesResponse({
+class MyServicesResponse {
+    MyServicesResponse({
         this.data,
     });
 
     List<Datum> data;
 
-    factory ServicesResponse.fromJson(Map<String, dynamic> json) => ServicesResponse(
+    factory MyServicesResponse.fromJson(Map<String, dynamic> json) => MyServicesResponse(
         data: json["data"] == null ? null : List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
     );
 
@@ -27,7 +27,6 @@ class ServicesResponse {
 class Datum {
     Datum({
         this.preco,
-        this.horario,
         this.created,
         this.categoria,
         this.datumClass,
@@ -40,7 +39,6 @@ class Datum {
     });
 
     String preco;
-    Horario horario;
     int created;
     Categoria categoria;
     String datumClass;
@@ -48,12 +46,11 @@ class Datum {
     String titulo;
     dynamic ownerId;
     List<Worker> worker;
-    dynamic updated;
+    int updated;
     String objectId;
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         preco: json["preco"] == null ? null : json["preco"],
-        horario: json["horario"] == null ? null : Horario.fromJson(json["horario"]),
         created: json["created"] == null ? null : json["created"],
         categoria: json["categoria"] == null ? null : Categoria.fromJson(json["categoria"]),
         datumClass: json["___class"] == null ? null : json["___class"],
@@ -61,13 +58,12 @@ class Datum {
         titulo: json["titulo"] == null ? null : json["titulo"],
         ownerId: json["ownerId"],
         worker: json["worker"] == null ? null : List<Worker>.from(json["worker"].map((x) => Worker.fromJson(x))),
-        updated: json["updated"],
+        updated: json["updated"] == null ? null : json["updated"],
         objectId: json["objectId"] == null ? null : json["objectId"],
     );
 
     Map<String, dynamic> toJson() => {
         "preco": preco == null ? null : preco,
-        "horario": horario == null ? null : horario.toJson(),
         "created": created == null ? null : created,
         "categoria": categoria == null ? null : categoria.toJson(),
         "___class": datumClass == null ? null : datumClass,
@@ -75,7 +71,7 @@ class Datum {
         "titulo": titulo == null ? null : titulo,
         "ownerId": ownerId,
         "worker": worker == null ? null : List<dynamic>.from(worker.map((x) => x.toJson())),
-        "updated": updated,
+        "updated": updated == null ? null : updated,
         "objectId": objectId == null ? null : objectId,
     };
 }
@@ -116,46 +112,6 @@ class Categoria {
         "___class": categoriaClass == null ? null : categoriaClass,
         "ownerId": ownerId,
         "updated": updated == null ? null : updated,
-        "objectId": objectId == null ? null : objectId,
-    };
-}
-
-class Horario {
-    Horario({
-        this.created,
-        this.horarioClass,
-        this.inicio,
-        this.fim,
-        this.ownerId,
-        this.updated,
-        this.objectId,
-    });
-
-    int created;
-    String horarioClass;
-    String inicio;
-    String fim;
-    dynamic ownerId;
-    dynamic updated;
-    String objectId;
-
-    factory Horario.fromJson(Map<String, dynamic> json) => Horario(
-        created: json["created"] == null ? null : json["created"],
-        horarioClass: json["___class"] == null ? null : json["___class"],
-        inicio: json["inicio"] == null ? null : json["inicio"],
-        fim: json["fim"] == null ? null : json["fim"],
-        ownerId: json["ownerId"],
-        updated: json["updated"],
-        objectId: json["objectId"] == null ? null : json["objectId"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "created": created == null ? null : created,
-        "___class": horarioClass == null ? null : horarioClass,
-        "inicio": inicio == null ? null : inicio,
-        "fim": fim == null ? null : fim,
-        "ownerId": ownerId,
-        "updated": updated,
         "objectId": objectId == null ? null : objectId,
     };
 }

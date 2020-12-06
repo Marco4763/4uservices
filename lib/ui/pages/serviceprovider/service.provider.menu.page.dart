@@ -5,6 +5,7 @@ import 'package:uservices/ui/pages/agenda.page.dart';
 import 'package:uservices/ui/pages/favorites.page.dart';
 import 'package:uservices/ui/pages/home.page.dart';
 import 'package:uservices/ui/pages/profile.page.dart';
+import 'package:uservices/ui/pages/serviceprovider/service.provider.home.page.dart';
 import 'package:uservices/ui/pages/serviceprovider/service.provider.worker.page.dart';
 
 class ServiceMenuPage extends StatefulWidget {
@@ -21,7 +22,7 @@ class _ServiceMenuPageState extends State<ServiceMenuPage> with TickerProviderSt
   void initState() {
     super.initState();
     _drawerController = KFDrawerController(
-      initialPage: HomePage(),
+      initialPage: ServiceProviderHomePage(),
       items: [
         KFDrawerItem(
           text: Column(
@@ -59,7 +60,7 @@ class _ServiceMenuPageState extends State<ServiceMenuPage> with TickerProviderSt
             CupertinoIcons.home,
             color: Colors.white,
           ),
-          page: HomePage(),
+          page: ServiceProviderHomePage(),
         ),
         KFDrawerItem.initWithPage(
           text: Text(

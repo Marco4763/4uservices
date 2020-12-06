@@ -23,6 +23,7 @@ dependencies:
   kf_drawer: ^1.1.2
   image_picker: ^0.6.7+14
   brasil_fields: ^0.6.0
+  flutter_datetime_picker: ^1.4.0
 
 dev_dependencies:
   flutter_test:

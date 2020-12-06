@@ -1,22 +1,23 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:uservices/data/models/services.response.dart';
+import 'package:uservices/data/models/categories.response.dart';
+import 'package:uservices/data/models/favorites.response.dart';
+import 'package:uservices/data/models/login.response.dart';
+import 'package:uservices/data/models/profile.response.dart';
+import 'package:uservices/data/provider/provider.dart';
 import 'package:uservices/data/service/http.service.dart';
+import 'package:uservices/ui/pages/menu.page.dart';
 
-class ServicesController extends GetxController {
+class FavoritesController extends GetxController {
   //Ctrl => Controller
-  final _state = 0.obs;
   final hour = ''.obs;
   final _date = ''.obs;
   final workerId = ''.obs;
-  ServicesResponse result;
+  final _state = 0.obs;
+  FavoritesResponse result;
   final storage = GetStorage();
   HttpServices http = HttpServices();
-  final _sending = false.obs;
-
-  get sending => this._sending.value;
-  set sending(value) => this._sending.value = value;
 
   get state => this._state.value;
   set state(value) => this._state.value = value;
@@ -24,21 +25,20 @@ class ServicesController extends GetxController {
   get date => this._date.value;
   set date(value) => this._date.value = value;
 
-  void getServices(var id) async {
+  void getFavorites() async {
     state = 1;
     http.initApi();
     print('ok');
-    await http.get('/getServicos?objectId=$id', headers: {
+    await http.get('/getFavoritos?usuarioId=${storage.read('id')}', headers: {
       'Content-Type': 'application/json; charset=utf-8',
       'charset': 'utf-8'
     }).then((value) {
+      state = 2;
       if (value.toString().contains('Erro')) {
-        state = 4;
         Get.snackbar('Resultado', 'Erro de autentição.',
             showProgressIndicator: true);
       } else {
-        state = 2;
-        result = ServicesResponse.fromJson(jsonDecode(value));
+        result = FavoritesResponse.fromJson(jsonDecode(value));
         print(result);
       }
     }).catchError((error) {
@@ -46,40 +46,6 @@ class ServicesController extends GetxController {
       print(error);
       Get.snackbar('Resultado', 'Erro de conexão, verifique a internet.',
           showProgressIndicator: true);
-    });
-  }
-
-  void addFavorite(var objectId, var image) async {
-    http.initApi();
-    print('ok');
-    var result;
-    var params = {
-      "usuarioId": storage.read('id'),
-      "servicoId": [
-        {"objectId": objectId}
-      ],
-    "image": image
-    };
-    print(params);
-    sending = true;
-    await http.post('/createFavorito', params,
-        headers: {'Content-Type': 'application/json'}).then((value) {
-      sending = false;
-      if (value.toString().contains('Erro')) {
-        Get.snackbar('Resultado', 'Erro de autentição.',
-            showProgressIndicator: true);
-      } else {
-        Get.back();
-        result = value;
-        print(result);
-        Get.snackbar('Resultado', 'Adicionado aos favoritos com sucesso.',
-            showProgressIndicator: true);
-      }
-    }).catchError((error) {
-      print(error);
-      Get.snackbar('Resultado', 'Erro de conexão, verifique a internet.',
-          showProgressIndicator: true);
-      sending = false;
     });
   }
 

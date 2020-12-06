@@ -25,27 +25,5 @@ class ServiceWorkersController extends GetxController {
   get state2 => this._state2.value;
   set state2(value) => this._state2.value = value;
 
-  void getWorkers() async {
-    state2 = 1;
-    http.initApi();
-    print('ola');
-    await http.get('/getMyWorkers?objectId=${storage.read('id')}', headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'charset': 'utf-8'
-    }).then((value) {
-      state2 = 2;
-      if (value.toString().contains('Erro')) {
-        Get.snackbar('Resultado', 'Erro de autentição.',
-            showProgressIndicator: true);
-      } else {
-        workers = MyWorkersResponse.fromJson(jsonDecode(value));
-        print(workers);
-      }
-    }).catchError((error) {
-      state2 = 3;
-      print(error);
-      Get.snackbar('Resultado', 'Erro de conexão, verifique a internet.',
-          showProgressIndicator: true);
-    });
-  }
+  
 }

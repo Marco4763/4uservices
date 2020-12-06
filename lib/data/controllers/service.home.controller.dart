@@ -13,7 +13,6 @@ import 'package:uservices/ui/pages/menu.page.dart';
 class ServiceHomeController extends GetxController {
   //Ctrl => Controller
   final _state = 0.obs;
-  final _state2 = 0.obs;
   MyServicesResponse result;
   MyWorkersResponse workers;
   GetStorage storage = GetStorage();
@@ -22,14 +21,35 @@ class ServiceHomeController extends GetxController {
   get state => this._state.value;
   set state(value) => this._state.value = value;
 
-  get state2 => this._state2.value;
-  set state2(value) => this._state2.value = value;
-
   void getServices() async {
     state = 1;
     http.initApi();
-    print(storage.read('id'));
+    var id = storage.read('id');
+    print(id);
     await http.get('/getMyServicos?objectId=${storage.read('id')}', headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'charset': 'utf-8'
+    }).then((value) {
+      if (value.toString().contains('Erro')) {
+        Get.snackbar('Resultado', 'Erro de autentição.',
+            showProgressIndicator: true);
+      } else {
+        result = MyServicesResponse.fromJson(jsonDecode(value));
+        storage.write('id', id);
+        getWorkers(id);
+      }
+    }).catchError((error) {
+      state = 3;
+      print(error);
+      Get.snackbar('Resultado', 'Erro de conexão, verifique a internet.',
+          showProgressIndicator: true);
+    });
+  }
+
+  void getWorkers(var id) async {
+    http.initApi();
+    print(id);
+    await http.get('/getMyWorkers?objectId=$id', headers: {
       'Content-Type': 'application/json; charset=utf-8',
       'charset': 'utf-8'
     }).then((value) {
@@ -38,8 +58,8 @@ class ServiceHomeController extends GetxController {
         Get.snackbar('Resultado', 'Erro de autentição.',
             showProgressIndicator: true);
       } else {
-        result = MyServicesResponse.fromJson(jsonDecode(value));
-        print(result);
+        workers = MyWorkersResponse.fromJson(jsonDecode(value));
+        print(workers);
       }
     }).catchError((error) {
       state = 3;

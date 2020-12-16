@@ -7,6 +7,7 @@ import 'package:uservices/ui/pages/services.page.dart';
 
 class SubcategoriesPage extends KFDrawerContent {
   SubcategoriesPage({Key key, this.id});
+
   final String id;
 
   @override
@@ -62,23 +63,32 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
                         'assets/images/categories.jpg',
                         fit: BoxFit.cover,
                       )),
-                  Text(
-                    'Selecione a subcategoria',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  SizedBox(
+                    height: 40,
+                    child: Text(
+                      'Selecione a subcategoria',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
                   ),
-                  Container(
+                  Expanded(
+                      child: Container(
                     width: Get.width,
                     height: Get.height / 2,
                     child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
+                          crossAxisCount: 3,mainAxisSpacing: 15,
                           childAspectRatio: Get.width / (Get.height / 2),
                         ),
                         itemCount: _.result.data[0].subcategorias.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              Get.to(ServicesPage(subcategorieId: _.result.data[0].subcategorias[index].objectId, subcategories: _.result,));
+                              Get.to(ServicesPage(
+                                subcategorieId: _.result.data[0]
+                                    .subcategorias[index].objectId,
+                                subcategories: _.result,
+                              ));
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -100,21 +110,23 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
                                         fit: BoxFit.cover,
                                       ),
                                     )),
-                                Container(
-                                  width: Get.width * .9,
-                                  child: Text(
-                                    _.result.data[0].subcategorias[index]
-                                        .subcategoria,
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 12),
+                                Expanded(
+                                  child: Container(
+                                    width: Get.width * .9,
+                                    child: Text(
+                                      _.result.data[0].subcategorias[index]
+                                          .subcategoria,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 12),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           );
                         }),
-                  )
+                  ))
                 ],
               );
             } else {

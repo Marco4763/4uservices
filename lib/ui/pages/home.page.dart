@@ -63,16 +63,20 @@ class _HomePageState extends State<HomePage> {
                         'assets/images/categories.jpg',
                         fit: BoxFit.cover,
                       )),
-                  Text(
+                  SizedBox(height: 40,
+                  child: Text(
                     'Categorias',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,),
+                  )
                   ),
+                  Expanded(
+                      child:
                   Container(
                     width: Get.width,
                     height: Get.height / 2,
                     child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
+                          crossAxisCount: 3,mainAxisSpacing: 15,
                           childAspectRatio: Get.width / (Get.height / 2),
                         ),
                         itemCount: _.result.data.length,
@@ -81,6 +85,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Get.to(SubcategoriesPage(id: _.result.data[index].objectId,));
                             },
+
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,6 +106,8 @@ class _HomePageState extends State<HomePage> {
                                         fit: BoxFit.cover,
                                       ),
                                     )),
+                                Expanded(
+                                  child:
                                 Container(
                                   width: Get.width * .9,
                                   child: Text(
@@ -110,11 +117,11 @@ class _HomePageState extends State<HomePage> {
                                     style: TextStyle(fontSize: 12),
                                   ),
                                 ),
+                                ),
                               ],
                             ),
                           );
-                        }),
-                  )
+                        }),))
                 ],
               );
             } else {

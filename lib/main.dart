@@ -8,7 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     GetMaterialApp(
-      title: 'Tchingame',
+      title: '4U Services',
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.native,
       getPages: Routes.route,

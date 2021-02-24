@@ -74,72 +74,78 @@ class _AgendaPageState extends State<AgendaPage> {
                                     )),
                                 Container(
                                   width: Get.width / 1.6,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text('${_.result.data[index].titulo}',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: "SemiBold",
-                                          fontSize: 18.0,
-                                          color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text('${_.result.data[index].titulo}',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: "SemiBold",
+                                            fontSize: 18.0,
+                                            color: Colors.white,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Data Marcada: ${_.result.data[index].data} ${_.result.data[index].hora}',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          fontFamily: "SemiBold",
-                                          fontSize: 14.0,
-                                          color: Colors.white,
+                                        Text(
+                                          'Data Marcada: ${_.result.data[index].data} ${_.result.data[index].hora}',
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontFamily: "SemiBold",
+                                            fontSize: 14.0,
+                                            color: Colors.white,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Estado da marcação: ${_.result.data[index].estado.toUpperCase()}',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          fontFamily: "SemiBold",
-                                          fontSize: 14.0,
-                                          color: Colors.white,
+                                        Text(
+                                          'Estado da marcação: ${_.result.data[index].estado}',
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontFamily: "SemiBold",
+                                            fontSize: 14.0,
+                                            color: Colors.white,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Valor agendado: R\$ ${_.result.data[index].preco}',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          fontFamily: "SemiBold",
-                                          fontSize: 14.0,
-                                          color: Colors.white,
+                                        Text(
+                                          'Valor agendado: R\$ ${_.result.data[index].preco}',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                            fontFamily: "SemiBold",
+                                            fontSize: 14.0,
+                                            color: Colors.white,
+                                          ),
                                         ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                            },
-                                            child: Card(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  'Detalhes',
-                                                  style: TextStyle(
-                                                    fontFamily: "SemiBold",
-                                                    fontSize: 12.0,
-                                                    color: Colors.black,
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                          children: [
+                                            IconButton(
+                                              icon: Icon(Icons.delete, color: Colors.white, size: 35.0,),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                              },
+                                              child: Card(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'Detalhes',
+                                                    style: TextStyle(
+                                                      fontFamily: "SemiBold",
+                                                      fontSize: 12.0,
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 )
                               ],

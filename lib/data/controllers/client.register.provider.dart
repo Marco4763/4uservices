@@ -1,16 +1,10 @@
 import 'dart:convert';
-
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:uservices/data/models/categories.response.dart';
 import 'package:uservices/data/models/login.response.dart';
-import 'package:uservices/data/provider/provider.dart';
 import 'package:uservices/data/service/http.service.dart';
 import 'package:uservices/ui/pages/client.login.page.dart';
-import 'package:uservices/ui/pages/menu.page.dart';
-import 'package:uservices/ui/pages/serviceprovider/service.provider.login.page.dart';
-import 'package:uservices/ui/pages/serviceprovider/service.provider.menu.page.dart';
 
 class ClientRegisterProvider extends GetxController {
   //Ctrl => Controller

@@ -110,10 +110,8 @@ class _HomePageState extends State<HomePage> {
                                   child:
                                 Container(
                                   width: Get.width * .9,
-                                  child: Text(
-                                    _.result.data[index].categoria,
+                                  child: Text(_applyAccent(_.result.data[index].categoria),
                                     textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(fontSize: 12),
                                   ),
                                 ),
@@ -133,5 +131,17 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  _applyAccent(String content){
+    if(content.contains('cao')){
+      return content.replaceAll('cao', 'ção');
+    }else if(content.contains('Servico')){
+      return content.replaceAll('Servico', 'Serviço');
+    }else if(content.contains('ao')){
+      return content.replaceAll('ao', 'ão');
+    }else{
+      return content;
+    }
   }
 }

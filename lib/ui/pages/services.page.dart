@@ -79,8 +79,8 @@ class _ServicesPageState extends State<ServicesPage> {
                                     subcategoriesModel.data[0].image,
                                     fit: BoxFit.scaleDown,
                                   )),
-                              Text(subcategoriesModel
-                                  .data[0].subcategorias[index].subcategoria)
+                              Text(_applyAccent(subcategoriesModel
+                                  .data[0].subcategorias[index].subcategoria))
                             ],
                           ),
                         ),
@@ -139,8 +139,7 @@ class _ServicesPageState extends State<ServicesPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text(
-                                            _.result.data[index].titulo,
+                                          Text(_applyAccent(_.result.data[index].titulo),
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
                                               fontFamily: "SemiBold",
@@ -468,5 +467,17 @@ class _ServicesPageState extends State<ServicesPage> {
             )
           ],
         ))));
+  }
+
+  _applyAccent(String content){
+    if(content.contains('cao')){
+      return content.replaceAll('cao', 'ção');
+    }else if(content.contains('Servico')){
+      return content.replaceAll('Servico', 'Serviço');
+    }else if(content.contains('ao')){
+      return content.replaceAll('ao', 'ão');
+    }else{
+      return content;
+    }
   }
 }

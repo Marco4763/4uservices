@@ -19,6 +19,7 @@ class ServiceProviderHomePage extends KFDrawerContent {
 
 class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
   final _controller = Get.lazyPut(() => ServiceHomeController());
+  final _workesController = Get.lazyPut(() => ServiceWorkersController());
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +74,11 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
                                       width: Get.width / 3,
                                       height: Get.height,
                                       color: Colors.white,
-                                      child: Image.network(
+                                      child: _.result.data[index].categoria != null && _.result.data[index].categoria.image != null ? Image.network(
                                         _.result.data[index].categoria.image,
                                         fit: BoxFit.scaleDown,
-                                      )),
+                                      ) : Image.asset('assets/src/logo.png',
+                                        fit: BoxFit.scaleDown,)),
                                   Container(
                                     width: Get.width / 1.6,
                                     child: Column(
@@ -204,22 +206,141 @@ class _ServiceProviderHomePageState extends State<ServiceProviderHomePage> {
               )
             ],
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Icon(Icons.person, color: Colors.white, size: 50.0),
-              Text(
-                'Add. Funcionario',
-                style: TextStyle(
-                  fontFamily: "SemiBold",
-                  fontSize: 14.0,
-                  color: Colors.white,
-                ),
-              )
-            ],
+          GestureDetector(
+            onTap: (){
+              Get.back();
+              _showListOfWorkers();
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Icon(Icons.person, color: Colors.white, size: 50.0),
+                Text(
+                  'Add. Funcionario',
+                  style: TextStyle(
+                    fontFamily: "SemiBold",
+                    fontSize: 14.0,
+                    color: Colors.white,
+                  ),
+                )
+              ],
+            ),
           ),
         ],
       ),
     ));
+  }
+
+  _showListOfWorkers(){
+    return Get.bottomSheet(
+        Container(
+          color: Colors.black54,
+          width: Get.width,
+          height: Get.height / 6,
+        child: GetX<ServiceWorkersController>(initState: (state) {
+          Get.find<ServiceWorkersController>().getMyWorkers();
+          },
+            builder: (_) {
+          if(_.state == 2){
+            return Container(
+                color: Colors.black54,
+                width: Get.width,
+                height: Get.height / 3,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('Selecione o prestador',
+                        style: TextStyle(
+                          fontFamily: "SemiBold",
+                          fontSize: 22.0,
+                          color: Colors.white,
+                        )),
+                    Container(
+                        width: Get.width,
+                        height: Get.height / 5,
+                        child: ListView.builder(
+                          itemCount: _.workers.data.length,
+                          itemBuilder: (context, count) {
+                            return ListTile(
+                              leading: Container(
+                                  width: 50,
+                                  height: 50,
+                                  child: Image.network(
+                                      _.workers.data[count].porfilePhoto,
+                                      fit: BoxFit.cover)),
+                              title: Text(_.workers.data[count].nome,
+                                  style: TextStyle(
+                                    fontFamily: "SemiBold",
+                                    fontSize: 16.0,
+                                    color: Colors.white,
+                                  )),
+                              trailing: IconButton(
+                                  icon: Icon(_.workerId.value !=
+                                          _.workers.data[count].objectId
+                                          ? Icons.check_box_outline_blank
+                                          : Icons.check_box,
+                                      color: Colors.white),
+                                  onPressed: () {
+                                    if (_.workerId.value !=
+                                        _.workers.data[count].objectId) {
+                                      setState(() {
+                                        _.workerId.value = _.workers.data[count].objectId;
+                                      });
+                                    }
+                                  }),
+                            );
+                          },
+                        )),
+                    Text(_.workerId.value.isEmpty
+                        ? _.workerId.value
+                        : ''),
+                    GestureDetector(
+                      onTap: () {
+                        if (_.workerId.value.isEmpty) {
+                          Get.snackbar('Resultado', 'Selecione um prestador.',
+                              showProgressIndicator: true);
+                        } else {
+                          Get.back();
+                          Get.defaultDialog(
+                              title: 'Agendando',
+                              content: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CircularProgressIndicator(
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  Text('Por favor aguarde')
+                                ],
+                              ));
+                        }
+                      },
+                      child: Container(
+                          width: Get.width / 1.2,
+                          height: 50,
+                          color: Colors.deepOrange,
+                          child: Center(
+                            child: Text('Agendar',
+                                style: TextStyle(
+                                  fontFamily: "SemiBold",
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                )),
+                          )),
+                    )
+                  ],
+                ));
+          }else{
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Buscando funcionarios...', style: TextStyle(color: Colors.white),)
+              ],
+            );
+          }
+        }
+        ),
+      )
+    );
   }
 }

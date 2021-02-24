@@ -102,8 +102,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                            MainAxisAlignment.spaceAround,
                                         children: [
+                                          IconButton(
+                                            icon: Icon(Icons.delete, color: Colors.white, size: 35.0,),
+                                          ),
                                           GestureDetector(
                                             onTap: () {
                                               getHours(index);

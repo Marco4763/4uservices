@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uservices/data/controllers/login.controller.dart';
+import 'package:uservices/routes/routes.dart';
 import 'package:uservices/ui/pages/client.register.page.dart';
 
 class ClientLoginPage extends StatefulWidget {
@@ -50,7 +51,7 @@ class _ClientLoginPageState extends State<ClientLoginPage> {
                 children: [
                   GestureDetector(
                     onTap: (){
-                      Get.back();
+                      Get.offAndToNamed(Routes.authenticationPage);
                       },
                     child: Container(
                       width: 40.0,

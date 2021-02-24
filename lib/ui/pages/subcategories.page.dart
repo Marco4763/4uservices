@@ -22,9 +22,9 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(CupertinoIcons.square_grid_2x2),
+          icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            widget.onMenuPressed();
+            Get.back();
           },
         ),
         title: Text(
@@ -113,9 +113,8 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
                                 Expanded(
                                   child: Container(
                                     width: Get.width * .9,
-                                    child: Text(
-                                      _.result.data[0].subcategorias[index]
-                                          .subcategoria,
+                                    child: Text(_applyAccent(_.result.data[0].subcategorias[index]
+                                        .subcategoria),
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 12),
@@ -138,5 +137,17 @@ class _SubcategoriesPageState extends State<SubcategoriesPage> {
         ),
       ),
     );
+  }
+
+  _applyAccent(String content){
+    if(content.contains('cao')){
+      return content.replaceAll('cao', 'ção');
+    }else if(content.contains('Servico')){
+      return content.replaceAll('Servico', 'Serviço');
+    }else if(content.contains('ao')){
+      return content.replaceAll('ao', 'ão');
+    }else{
+      return content;
+    }
   }
 }
